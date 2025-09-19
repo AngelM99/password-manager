@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CredentialController;
 use App\Http\Controllers\PinController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
@@ -59,6 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/credentials', [CredentialController::class, 'index'])->name('credentials.index');
+    Route::post('/credentials', [CredentialController::class, 'store'])->name('credentials.store');
 });
 
 Route::get('/set-pin', [PinController::class, 'showSetPinForm'])->name('set-pin')->middleware('auth');
