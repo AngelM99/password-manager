@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\PinController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
@@ -43,7 +45,10 @@ Route::get('/auth/google/callback', function () {
 });
 
 Route::get('/', function () {
-    return view('./auth/register');
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+    return view('auth.register');
 });
 
 Route::get('/dashboard', function () {
@@ -56,4 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::get('/set-pin', [PinController::class, 'showSetPinForm'])->name('set-pin')->middleware('auth');
+Route::post('/set-pin', [PinController::class, 'storePin'])->name('set-pin.store')->middleware('auth');
+
+require __DIR__ . '/auth.php';
