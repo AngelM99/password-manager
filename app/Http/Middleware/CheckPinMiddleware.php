@@ -18,8 +18,8 @@ class CheckPinMiddleware
     {
         $user = Auth::user();
 
-        // Solo redirigir si el usuario está autenticado y no tiene PIN configurado
-        if ($user && empty($user->pin_hash) && $request->route()->getName() !== 'set-pin') {
+        // Redirigir solo si no está en las rutas de configuración de PIN
+        if ($user && empty($user->pin_hash) && !in_array($request->route()->getName(), ['set-pin', 'set-pin.store'])) {
             return redirect()->route('set-pin')->with('message', 'Por favor, configura tu PIN de seguridad.');
         }
 
