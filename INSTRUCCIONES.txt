@@ -1,0 +1,58 @@
+Actúa como un Desarrollador Full Stack Senior, ya revisaste mi proyecto he avanzado con algo y quiero que lo acabes aca los requerimientos del Sistema - Password Manager
+
+1. Autenticación de usuario
+   - Implementar login/registro con Laravel Breeze (correo y contraseña).
+   - Opción adicional: integración con Google OAuth2 usando Laravel Socialite.
+   - Sesiones seguras con Laravel Sanctum o sesiones nativas de Breeze.
+
+2. Gestión de credenciales
+   - Registrar plataformas/servicios (ejemplo: Gmail, Facebook).
+   - Guardar usuario/correo y contraseña encriptada.
+   - Campo opcional: nota descriptiva.
+   - Listado de plataformas visibles por usuario autenticado.
+   - Mostrar credenciales solo al ingresar PIN.
+   - Opción para copiar contraseña al portapapeles.
+   - Botón "ojito" para visualizar temporalmente la contraseña.
+
+3. PIN de seguridad
+   - Obligatorio definir un PIN (4-6 dígitos) en el primer login.
+   - El PIN se almacena hasheado (bcrypt).
+   - Se solicita PIN para ver/copiar credenciales.
+   - Cambio de PIN requiere validar con PIN actual o recuperación vía correo (token temporal).
+   - Recuperación de PIN con notificación vía email (SMTP gratuito en producción, MailHog en desarrollo).
+
+4. Seguridad de datos
+   - Contraseñas encriptadas con Laravel Encryption (AES-256).
+   - PIN siempre hasheado, nunca en texto plano.
+   - Protección CSRF y rate limiting en endpoints sensibles.
+   - Uso de HTTPS en producción.
+   - APP_KEY seguro y manejado mediante variables de entorno.
+
+5. Interfaz de usuario
+   - Base con Laravel Breeze + TailwindCSS.
+   - Adaptar plantilla open source (ejemplo: Tailwind UI open source, Flowbite, AdminLTE con Tailwind adaptado).
+   - Requisitos de UX:
+     - Listado de plataformas con buscador y paginación.
+     - Modal para pedir PIN antes de revelar credencial.
+     - Botón copiar al portapapeles con notificación visual.
+     - Soporte de modo oscuro.
+
+6. Infraestructura y despliegue
+   - Contenerización con Docker (Laravel Sail).
+   - Servicios mínimos: PHP-FPM, MySQL/Postgres, Nginx, Mailhog.
+   - Opcional: Redis para cache/session si escala.
+   - Entorno local en WSL2 + Docker Desktop en Windows 11.
+
+7. Mejoras opcionales (futuro)
+   - Exportar/Importar credenciales (JSON cifrado).
+   - Compartir credenciales con otros usuarios bajo permisos.
+   - 2FA (Google Authenticator o correo).
+   - Integración con gestores externos (ej. HashiCorp Vault).
+
+8. Flujo básico de uso
+   - Usuario se registra/inicia sesión (correo o Google).
+   - Si es el primer ingreso, define PIN obligatorio.
+   - Dashboard con listado de plataformas.
+   - Agregar nueva credencial (plataforma, usuario, contraseña encriptada).
+   - Ver o copiar contraseña → requiere PIN.
+   - Posibilidad de cambiar PIN (validación de seguridad).

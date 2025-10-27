@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php:*)",
+      "Bash(npm install)",
+      "Bash(test:*)",
+      "Bash(docker-compose ps:*)",
+      "Bash(docker-compose exec:*)",
+      "Bash(npm run build:*)",
+      "Bash(docker exec:*)",
+      "Bash(curl:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -61,11 +61,29 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Credentials routes
     Route::get('/credentials', [CredentialController::class, 'index'])->name('credentials.index');
     Route::post('/credentials', [CredentialController::class, 'store'])->name('credentials.store');
+    Route::put('/credentials/{credential}', [CredentialController::class, 'update'])->name('credentials.update');
+    Route::delete('/credentials/{credential}', [CredentialController::class, 'destroy'])->name('credentials.destroy');
+    Route::post('/credentials/{credential}/verify-pin', [CredentialController::class, 'verifyPin'])->name('credentials.verify-pin');
 });
 
+// PIN routes
 Route::get('/set-pin', [PinController::class, 'showSetPinForm'])->name('set-pin')->middleware('auth');
 Route::post('/set-pin', [PinController::class, 'storePin'])->name('set-pin.store')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/change-pin', [PinController::class, 'showChangePinForm'])->name('pin.change');
+    Route::post('/change-pin', [PinController::class, 'changePin'])->name('pin.update');
+});
+
+// PIN recovery routes (guest only)
+Route::middleware('guest')->group(function () {
+    Route::get('/pin/recovery', [PinController::class, 'showRecoveryForm'])->name('pin.recovery');
+    Route::post('/pin/recovery', [PinController::class, 'sendRecoveryEmail'])->name('pin.recovery.email');
+    Route::get('/pin/reset/{token}', [PinController::class, 'showResetForm'])->name('pin.reset');
+    Route::post('/pin/reset', [PinController::class, 'resetPin'])->name('pin.reset.store');
+});
 
 require __DIR__ . '/auth.php';
