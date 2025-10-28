@@ -14,19 +14,7 @@ class CredentialController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Auth::user()->credentials();
-
-        // Search functionality
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('username', 'like', "%{$search}%")
-                  ->orWhere('url', 'like', "%{$search}%");
-            });
-        }
-
-        $credentials = $query->latest()->paginate(10);
+        $credentials = Auth::user()->credentials()->latest()->get();
 
         return view('credentials.index', compact('credentials'));
     }

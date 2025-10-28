@@ -17,10 +17,10 @@
 
             <!-- Search and Add Button -->
             <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <form method="GET" action="{{ route('credentials.index') }}" class="flex-1">
+                <div class="flex-1">
                     <div class="relative">
-                        <input type="text" name="search" value="{{ request('search') }}"
-                            placeholder="Buscar por plataforma, usuario o URL..."
+                        <input type="text" x-model="searchTerm"
+                            placeholder="Buscar por plataforma..."
                             class="block w-full rounded-lg border-gray-300 py-2 pl-10 pr-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 sm:text-sm">
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,7 +29,7 @@
                             </svg>
                         </div>
                     </div>
-                </form>
+                </div>
                 <button @click="showAddModal = true" type="button"
                     class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
                     <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,7 +44,7 @@
                 @if ($credentials->count() > 0)
                     <div class="divide-y divide-gray-200 dark:divide-gray-700">
                         @foreach ($credentials as $credential)
-                            <div class="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                            <div x-show="shouldShowCredential({{ json_encode($credential->title) }})" class="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                                 <div class="flex items-start justify-between">
                                     <div class="flex-1">
                                         <div class="flex items-center gap-3">
@@ -113,11 +113,6 @@
                                 </div>
                             </div>
                         @endforeach
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="border-t border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800 sm:px-6">
-                        {{ $credentials->links() }}
                     </div>
                 @else
                     <div class="p-12 text-center">

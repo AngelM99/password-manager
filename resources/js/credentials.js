@@ -13,12 +13,23 @@ export default () => {
         revealedPassword: '',
         copied: false,
         editingCredential: {},
+        searchTerm: '',
         formData: {
             title: '',
             username: '',
             password: '',
             url: '',
             notes: ''
+        },
+
+        shouldShowCredential(credentialTitle) {
+            // Si el término de búsqueda tiene menos de 2 caracteres, mostrar todo
+            if (this.searchTerm.trim().length < 2) {
+                return true;
+            }
+
+            // Buscar solo por plataforma (title)
+            return credentialTitle.toLowerCase().includes(this.searchTerm.trim().toLowerCase());
         },
 
         openPinModal(credentialId) {
