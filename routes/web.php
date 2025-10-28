@@ -67,6 +67,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/credentials/{credential}', [CredentialController::class, 'update'])->name('credentials.update');
     Route::delete('/credentials/{credential}', [CredentialController::class, 'destroy'])->name('credentials.destroy');
     Route::post('/credentials/{credential}/verify-pin', [CredentialController::class, 'verifyPin'])->name('credentials.verify-pin');
+    Route::post('/credentials/verify-pin-export', [CredentialController::class, 'verifyPinForExport'])->name('credentials.verify-pin-export');
+    Route::post('/credentials/export', [CredentialController::class, 'export'])->name('credentials.export');
+    Route::post('/credentials/import', [CredentialController::class, 'import'])->name('credentials.import');
 });
 
 // PIN routes
